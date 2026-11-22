@@ -1,0 +1,13 @@
+SQLite — счётчик после пересоздания контейнера
+
+До пересоздания, после увеличения счётчика
+{"greeting": "Счётчик равен:", "count": 1, "hostname": "762b386a4c9b", "storage": "sqlite"}
+
+Удаление старого и создание нового контейнера
+Container ipr3-app-1 Removed
+Container ipr3-app-1 Created
+
+После пересоздания
+{"greeting": "Счётчик равен:", "count": 1, "hostname": "5918620fca2e", "storage": "sqlite"}
+
+Значение hostname изменилось. Счётчик остался равен 1.

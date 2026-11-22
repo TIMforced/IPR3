@@ -1,0 +1,28 @@
+Redis — сохранение счётчика и восстановление после остановки
+
+Приложение и Redis прошли проверку готовности.
+На свежем томе счётчик начинался с 0. Два запроса увеличили его до 2.
+
+Перед пересозданием, второй POST /increment — HTTP 200
+{"greeting": "Счётчик равен:", "count": 2, "hostname": "e565793e7ffd", "storage": "redis"}
+
+После пересоздания, GET / — HTTP 200
+{"greeting": "Счётчик равен:", "count": 2, "hostname": "0d1711984649", "storage": "redis"}
+
+Redis остановлен
+GET /healthz — HTTP 200
+{"status": "alive"}
+GET /readyz — HTTP 503
+{"error": "storage_unavailable"}
+POST /increment — HTTP 503
+{"error": "storage_unavailable"}
+
+Redis снова запущен
+GET /readyz — HTTP 200
+{"status": "ready", "storage": "redis"}
+GET / — HTTP 200
+{"greeting": "Счётчик равен:", "count": 2, "hostname": "0d1711984649", "storage": "redis"}
+POST /increment — HTTP 200
+{"greeting": "Счётчик равен:", "count": 3, "hostname": "0d1711984649", "storage": "redis"}
+
+Время запуска контейнера приложения осталось тем же (2026-11-22T20:33:42.421861637Z).
